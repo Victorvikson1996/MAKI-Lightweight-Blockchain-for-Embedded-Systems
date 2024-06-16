@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "agent_a"
+    static_configs:
+      - targets: ["agent_a:8000"]
+
+  - job_name: "agent_b"
+    static_configs:
+      - targets: ["agent_b:8001"]

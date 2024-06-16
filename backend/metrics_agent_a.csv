@@ -1,0 +1,37 @@
+operation,details,cpu_usage,memory_used,memory_total,memory_percent,data_size,num_transactions,timestamp,pid
+Key Exchange,Agent_A sent its key to Agent_B,0.0,30638080,8589934592,78.2,1,0,1718157489.65226,29678
+Key Exchange,Agent_A sent its key to Agent_B,0.0,30720000,8589934592,77.9,1,0,1718157497.328346,29678
+Message Sending,Agent_A sent 'Hello Agent B' to Agent_B,0.1,31293440,8589934592,77.2,1,0,1718157498.6822112,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,31342592,8589934592,77.9,1,0,1718157499.6903849,29678
+Transaction,Transaction from Agent_A to Agent_B,0.0,31408128,8589934592,77.7,1,0,1718157500.723818,29678
+Block Addition,Block added by Agent_A after transaction with Agent_B,0.0,31408128,8589934592,77.6,2,1,1718157501.735978,29678
+Transaction,Transaction from Agent_A to Agent_B,0.0,25968640,8589934592,77.0,2,1,1718157510.3527098,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,26394624,8589934592,77.7,2,1,1718157516.69398,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,26345472,8589934592,77.1,2,1,1718157543.718037,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,26214400,8589934592,77.3,2,1,1718157590.749621,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,26279936,8589934592,77.0,2,1,1718157601.7618098,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,26329088,8589934592,76.8,2,1,1718157611.773249,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,26378240,8589934592,77.2,2,1,1718157619.785161,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,26378240,8589934592,77.3,2,1,1718157629.797836,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,17498112,8589934592,76.9,2,1,1718157680.835264,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18464768,8589934592,78.0,2,1,1718157686.8469892,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18595840,8589934592,78.0,2,1,1718157692.855911,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18563072,8589934592,76.9,2,1,1718157703.869133,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,17252352,8589934592,79.2,2,1,1718157731.8903759,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,21594112,8589934592,78.6,2,1,1718157741.9096751,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,21692416,8589934592,78.8,2,1,1718157747.9244711,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,21725184,8589934592,77.5,2,1,1718157783.944891,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,17498112,8589934592,77.4,2,1,1718157811.970743,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18513920,8589934592,76.9,2,1,1718157837.987863,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18546688,8589934592,77.6,2,1,1718157849.0039418,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18628608,8589934592,77.4,2,1,1718157856.017359,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18677760,8589934592,77.5,2,1,1718157864.029245,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18710528,8589934592,78.4,2,1,1718157874.041574,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18628608,8589934592,77.7,2,1,1718157890.059152,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18497536,8589934592,79.2,2,1,1718157923.083373,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,18857984,8589934592,77.6,2,1,1718157930.092269,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,11419648,8589934592,80.2,2,1,1718157986.117474,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,12533760,8589934592,79.7,2,1,1718157994.128327,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,11501568,8589934592,79.3,2,1,1718158005.140289,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.1,7454720,8589934592,84.2,2,1,1718158012.154022,29678
+Request Transaction,Agent_A requested a transaction from Agent_B,0.0,10682368,8589934592,81.9,2,1,1718158027.178544,29678

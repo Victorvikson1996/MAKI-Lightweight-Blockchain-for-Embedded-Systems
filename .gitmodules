@@ -1,0 +1,3 @@
+[submodule "my-app"]
+	path = my-app
+	url = https://github.com/Victorvikson1996/MAKI-Lightweight-Blockchain-for-Embedded-Systems
