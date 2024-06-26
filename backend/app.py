@@ -37,3 +37,6 @@ agent_b.broadcast_message("This is a broadcast message from Agent B")
 print("Current Balances:")
 print("Agent_A:", blockchain.get_balance("Agent_A"))
 print("Agent_B:", blockchain.get_balance("Agent_B"))
+
+
+# broker = '172.20.10.5'
