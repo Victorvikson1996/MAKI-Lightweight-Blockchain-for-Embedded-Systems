@@ -139,7 +139,7 @@ from agent import AgentClient, blockchain, maki
 agent_b = AgentClient(
     agent_name="Agent_B",
     other_agent_name="Agent_A",
-    broker="10.188.62.12",  # Replace with the actual IP address of your MQTT broker
+    broker="localhost",  # Replace with the actual IP address of your MQTT broker
     port=1883,
     topic="agent/communication",
     blockchain=blockchain,
@@ -148,3 +148,5 @@ agent_b = AgentClient(
 
 # Start Agent B
 agent_b.start(prometheus_port=8001)
+
+

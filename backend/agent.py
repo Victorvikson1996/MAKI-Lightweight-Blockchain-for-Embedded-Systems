@@ -8,7 +8,7 @@ from maki import MAKI, Agent
 from blockchain import MiniBlockchain, AlgorandNode
 from cryptography.hazmat.primitives import serialization
 
-# Initialize Prometheus metrics
+## Initialize Prometheus metrics
 REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
 CPU_USAGE = Gauge('agent_cpu_usage', 'CPU usage of the agent')
 MEMORY_USAGE = Gauge('agent_memory_usage', 'Memory usage of the agent')
@@ -62,7 +62,7 @@ def save_metrics(agent):
         json.dump(metrics, json_file, indent=4)
 
 class AgentClient:
-    def __init__(self, agent_name, other_agent_name, broker, port, topic, blockchain, maki):
+    def __init__(self, agent_name, other_agent_name, broker, port, topic, blockchain, maki, certificate_lifetime=600):
         self.agent_name = agent_name
         self.other_agent_name = other_agent_name
         self.agent = Agent(agent_name, blockchain, maki)
@@ -73,6 +73,8 @@ class AgentClient:
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
         self.agent_key_received = False
+        self.certificates = {}
+        self.certificate_lifetime = certificate_lifetime
 
     def start(self, prometheus_port):
         print(f"Connecting to MQTT broker at {self.broker}:{self.port}")
@@ -93,6 +95,8 @@ class AgentClient:
                 self.client.publish(self.topic, f"{self.agent_name} to {self.other_agent_name}: {self.agent.send_message(self.other_agent_name, 'Request Transaction')}")
                 track_metrics(self.agent_name, "Request Transaction", f"{self.agent_name} requested a transaction from {self.other_agent_name}")
                 save_metrics(self.agent_name)
+            self.check_and_save_blockchain_growth()
+            self.remove_deprecated_blocks()
             time.sleep(random.randint(5, 10))
 
     def on_connect(self, client, userdata, flags, rc):
@@ -109,9 +113,12 @@ class AgentClient:
             decrypted_message = self.agent.receive_message(self.other_agent_name, encrypted_message)
             print(f"{self.agent_name} decrypted message: {decrypted_message}")
             if decrypted_message == "Request Transaction":
-                self.agent.blockchain.add_transaction(self.agent_name, self.other_agent_name, 50)
-                track_metrics(self.agent_name, "Transaction", f"Transaction from {self.agent_name} to {self.other_agent_name}")
-                client.publish(self.topic, f"{self.agent_name} to {self.other_agent_name}: {self.agent.send_message(self.other_agent_name, 'Transaction Completed')}")
+                if self.agent.blockchain.state.balances[self.agent_name] >= 50:
+                    self.agent.blockchain.add_transaction(self.agent_name, self.other_agent_name, 50)
+                    track_metrics(self.agent_name, "Transaction", f"Transaction from {self.agent_name} to {self.other_agent_name}")
+                    client.publish(self.topic, f"{self.agent_name} to {self.other_agent_name}: {self.agent.send_message(self.other_agent_name, 'Transaction Completed')}")
+                else:
+                    print(f"Warning: {self.agent_name} has insufficient balance.")
             elif decrypted_message == "Transaction Completed":
                 self.agent.blockchain.mine_block()
                 track_metrics(self.agent_name, "Block Addition", f"Block added by {self.agent_name} after transaction with {self.other_agent_name}")
@@ -123,9 +130,31 @@ class AgentClient:
                 'public_key': serialization.load_pem_public_key(other_agent_public_key.encode())
             }
             self.agent_key_received = True
+            self.certificates[self.other_agent_name] = time.time() + self.certificate_lifetime
             print(f"{self.agent_name}: Received {self.other_agent_name}'s key")
         elif message == "Request Key":
             client.publish(self.topic, f"{self.agent_name} Key: {self.agent.maki.get_public_key(self.agent_name)}")
             print(f"{self.agent_name}: Sent my key to {self.other_agent_name}")
             track_metrics(self.agent_name, "Key Exchange", f"{self.agent_name} sent its key to {self.other_agent_name}")
             save_metrics(self.agent_name)
+
+    def check_and_save_blockchain_growth(self):
+        data_size = len(self.agent.blockchain.chain)
+        with open(f'blockchain_growth_{self.agent_name}.json', 'w') as json_file:
+            json.dump({"blockchain_size": data_size, "timestamp": time.time()}, json_file, indent=4)
+        print(f"{self.agent_name}: Current blockchain length: {data_size}")
+
+    def remove_deprecated_blocks(self):
+        # Remove blocks only when certificates expire
+        current_time = time.time()
+        expired_certificates = [agent for agent, expiry in self.certificates.items() if expiry < current_time]
+        if expired_certificates:
+            deprecated_blocks = self.agent.blockchain.remove_deprecated_blocks()
+            with open(f'deprecated_blocks_{self.agent_name}.json', 'w') as json_file:
+                json.dump([block.to_dict() for block in deprecated_blocks], json_file, indent=4)
+            print(f"{self.agent_name}: Removed deprecated blocks: {[block.block_hash for block in deprecated_blocks]}")
+            # Remove expired certificates
+            for agent in expired_certificates:
+                del self.certificates[agent]
+        else:
+            print(f"{self.agent_name}: No certificates expired, no blocks removed")
